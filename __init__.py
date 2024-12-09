@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import xlwings as xw
-from ipython.display import display
+from IPython.display import display
 
 from copy import deepcopy
 from functools import wraps
@@ -27,6 +27,7 @@ def as_method(func):
     setattr(PandasObject, wrapper.__name__, wrapper)
 
     return wrapper
+
 
 @as_method
 def ur(DF, bl_print=True):
@@ -57,21 +58,6 @@ def dr(DF, lst_col=None, keep=False, bl_print=True):
         print(f"{len(df_return)} \t| length of duplicated rows")
 
     return df_return
-
-
-@as_method
-def rc(DF, lst_ordered=None, bl_left=True):
-    """reorders columns"""
-    if type(lst_ordered) == str:
-        lst_ordered = [lst_ordered]
-
-    lst_col = [i for i in DF.columns if i not in lst_ordered]
-
-    if bl_left:
-        return DF[lst_ordered + lst_col]
-
-    else:
-        return DF[lst_col + lst_ordered]
 
 
 @as_method
@@ -118,7 +104,7 @@ def rc(df, lst_ordered, bl_left=True):
 
 @as_method
 def display_(DF):
-    DF.display()
+    display(DF)
     return DF
 
 
@@ -126,3 +112,11 @@ def load_xl():
     DF = xw.load().reset_index()
     display(DF)
     return DF
+
+
+@as_method
+def vc(DF, column_name):
+    return (DF[column_name]
+            .value_counts(dropna=False)
+            .reset_index()
+            )
