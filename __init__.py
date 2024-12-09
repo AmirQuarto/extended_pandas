@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 import os
-
+import xlwings as xw
+from ipython.display import display
 
 from copy import deepcopy
 from functools import wraps
@@ -113,3 +114,9 @@ def rc(df, lst_ordered, bl_left=True):
 
     else:
         return df[lst_col + lst_ordered]
+
+
+def load_xl():
+    DF = xw.load().reset_index()
+    display(DF)
+    return DF
