@@ -10,6 +10,8 @@ from pandas.core.base import PandasObject
 from pyperclip import copy as copy_
 from pyperclip import paste as paste_
 
+PandasObject.view = xlwings.view
+
 def as_method(func):
     """
     This decrator makes a function also available as a method.
