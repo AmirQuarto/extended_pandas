@@ -28,7 +28,7 @@ def as_method(func):
 
     return wrapper
 
-
+@as_method
 def ur(DF, bl_print=True):
     """Returns Unique Rows."""
 
@@ -114,6 +114,12 @@ def rc(df, lst_ordered, bl_left=True):
 
     else:
         return df[lst_col + lst_ordered]
+
+
+@as_method
+def display_(DF):
+    DF.display()
+    return DF
 
 
 def load_xl():
