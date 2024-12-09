@@ -6,6 +6,8 @@ import os
 from copy import deepcopy
 from functools import wraps
 from pandas.core.base import PandasObject
+from pyperclip import copy as copy_
+from pyperclip import paste as paste_
 
 def as_method(func):
     """
@@ -97,3 +99,17 @@ def augment_reason_column(DF, str_template, column_name="Reason", print_row=0, r
     print(series_.values[print_row])
 
     return DF
+
+
+@as_method
+def rc(df, lst_ordered, bl_left=True):
+    """
+    Reorders columns
+    """
+    lst_col = [i for i in df.columns if i not in lst_ordered]
+
+    if bl_left:
+        return df[lst_ordered + lst_col]
+
+    else:
+        return df[lst_col + lst_ordered]
