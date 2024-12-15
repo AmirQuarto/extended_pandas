@@ -145,7 +145,7 @@ def rc(df, lst_ordered = None, bl_left=True):
 
     if lst_ordered is None:
         print(list(df.columns))
-        copy_(list(df.columns)):
+        copy_(list(df.columns))
         return DF
         
     lst_col = [i for i in df.columns if i not in lst_ordered]
