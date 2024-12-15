@@ -31,11 +31,11 @@ def as_method(func):
     return wrapper
 
 
-def assure_same_length(DF1, DF2):
+def _assure_same_length(DF1, DF2):
     assert len(DF1) == len(DF2), "DataFrames must have the same length"
 
 
-def assure_only_new_columns(DF1, DF2, new_columns = None):
+def _assure_only_new_columns(DF1, DF2, new_columns = None):
 
     expected_columns = set(DF1.columns).union(new_columns)
     unexpected_columns = set(DF2.columns) - expected_columns
@@ -63,11 +63,11 @@ def as_augment(same_length=True, new_columns=None):
 
             # Validate DataFrame length if same_length is True
             if same_length:
-                assure_same_length(df_return, df_input)
+                _assure_same_length(df_return, df_input)
 
             # Validate expected columns if new_columns is specified
             if new_columns:
-                assure_only_new_columns(df_return, df_input, new_columns)
+                _assure_only_new_columns(df_return, df_input, new_columns)
 
             return df_return
 
