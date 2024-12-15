@@ -31,6 +31,20 @@ def as_method(func):
     return wrapper
 
 
+def assure_same_length(DF1, DF2):
+    assert len(DF1) == len(DF2), "DataFrames must have the same length"
+
+
+def assure_only_new_columns(DF1, DF2, new_columns = None):
+
+    expected_columns = set(DF1.columns).union(new_columns)
+    unexpected_columns = set(DF2.columns) - expected_columns
+
+    assert not unexpected_columns, (
+        f"There are unexpected columns: {unexpected_columns}"
+    )
+    
+
 def as_augment(same_length=True, new_columns=None):
     """
     A decorator that makes a function available as a method.
@@ -42,24 +56,18 @@ def as_augment(same_length=True, new_columns=None):
         @wraps(func)
         def wrapper(*args, **kwargs):
             # Deepcopy input arguments to avoid side effects
-            df_return = func(*deepcopy(args), **deepcopy(kwargs))
+            
             df_input = args[0]  # The first argument should be the DataFrame
+            
+            df_return = func(*deepcopy(args), **deepcopy(kwargs))
 
             # Validate DataFrame length if same_length is True
             if same_length:
-                length_diff = len(df_return) - len(df_input)
-                assert len(df_return) == len(df_input), (
-                    f"The length of the DataFrame has changed. Diff = {length_diff}"
-                )
+                assure_same_length(df_return, df_input)
 
             # Validate expected columns if new_columns is specified
             if new_columns:
-                expected_columns = set(df_input.columns).union(new_columns)
-                unexpected_columns = set(df_return.columns) - expected_columns
-
-                assert not unexpected_columns, (
-                    f"There are unexpected columns: {unexpected_columns}"
-                )
+                assure_only_new_columns(df_return, df_input, new_columns)
 
             return df_return
 
@@ -69,6 +77,7 @@ def as_augment(same_length=True, new_columns=None):
         return wrapper
 
     return decorator
+
 
 
 @as_method
