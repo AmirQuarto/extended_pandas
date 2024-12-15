@@ -97,15 +97,13 @@ def ur(DF, bl_print=True):
 def dr(DF, lst_col=None, keep=False, bl_print=True):
     """Shows duplicated_rows"""
 
-    if bl_print:
-        print(f"{len(DF)} \t| length of original DataFrame")
-
     if lst_col is not None:
         df_return = DF[DF[lst_col].duplicated(keep=keep)].sort_values(lst_col)
     else:
         df_return = DF[DF.duplicated(keep=keep)]  # .sort_values(list())
 
     if bl_print:
+        print(f"{len(DF)} \t| length of original DataFrame")
         print(f"{len(df_return)} \t| length of duplicated rows")
 
     return df_return
