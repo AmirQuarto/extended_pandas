@@ -138,10 +138,16 @@ def augment_reason_column(DF, str_template, column_name="Reason", print_row=0, r
 
 
 @as_method
-def rc(df, lst_ordered, bl_left=True):
+def rc(df, lst_ordered = None, bl_left=True):
     """
     Reorders columns
     """
+
+    if lst_ordered is None:
+        print(list(df.columns))
+        copy_(list(df.columns)):
+        return DF
+        
     lst_col = [i for i in df.columns if i not in lst_ordered]
 
     if bl_left:
