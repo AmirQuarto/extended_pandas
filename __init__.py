@@ -31,6 +31,46 @@ def as_method(func):
     return wrapper
 
 
+def as_augment(same_length=True, new_columns=None):
+    """
+    A decorator that makes a function available as a method.
+    The first argument must be a DataFrame.
+    """
+
+    def decorator(func):
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            # Deepcopy input arguments to avoid side effects
+            df_return = func(*deepcopy(args), **deepcopy(kwargs))
+            df_input = args[0]  # The first argument should be the DataFrame
+
+            # Validate DataFrame length if same_length is True
+            if same_length:
+                length_diff = len(df_return) - len(df_input)
+                assert len(df_return) == len(df_input), (
+                    f"The length of the DataFrame has changed. Diff = {length_diff}"
+                )
+
+            # Validate expected columns if new_columns is specified
+            if new_columns:
+                expected_columns = set(df_input.columns).union(new_columns)
+                unexpected_columns = set(df_return.columns) - expected_columns
+
+                assert not unexpected_columns, (
+                    f"There are unexpected columns: {unexpected_columns}"
+                )
+
+            return df_return
+
+        # Add the function as a method to PandasObject
+        setattr(PandasObject, func.__name__, wrapper)
+
+        return wrapper
+
+    return decorator
+
+
 @as_method
 def ur(DF, bl_print=True):
     """Returns Unique Rows."""
