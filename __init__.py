@@ -122,3 +122,26 @@ def vc(DF, column_name):
             .value_counts(dropna=False)
             .reset_index()
             )
+
+
+@as_method
+def augment_sorted_values(df, column_name, sep):
+    """
+    Sorts the values in each row of a specified column in a DataFrame
+    using vectorized operations for better performance.
+    """
+    # Split strings into lists of substrings
+    split_data = df[column_name].str.split(sep)
+    
+    # Sort each list of substrings
+    sorted_data = split_data.map(np.sort)
+    
+    # Join the sorted substrings back into strings
+    df[f"{column_name}_sorted"] = sorted_data.str.join(sep)
+    return df
+
+
+# Example usage
+# (pd.DataFrame({'A': ["b=a ", "c=d", "x=y", "y=x"]})
+# .augment_sorted_values("A", sep="=")
+# )
