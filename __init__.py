@@ -170,12 +170,34 @@ def load_xl():
 
 
 @as_method
-def vc(DF, column_name):
-    return (DF[column_name]
-            .value_counts(dropna=False)
-            .reset_index()
-            )
+def vc(DF, str_column, rounding_precision=2, order_by_str_column=False):
+    """Shows value_counts"""
+    if type(str_column) == list:
+        assert (
+            len(str_column) == 1
+        ), "If you use list as input argument, it must have length of 1!"
+        str_column = str_column[0]
 
+    df_vc = (
+        DF[str_column]
+        .value_counts(dropna=False)
+        .reset_index()
+        # .rename(columns={str_column: "count", "index": str_column})
+    )
+
+
+
+    if order_by_str_column:
+        print(f"Sorting values based on this column: {str_column}")
+        df_vc.sort_values(str_column, inplace=True)
+
+    df_vc["cumulative_sum"] = df_vc["count"].cumsum()
+
+    df_vc["%_of_total"] = df_vc["count"] / df_vc["count"].sum()
+
+    df_vc["cumulative_sum_in_%"] = df_vc["cumulative_sum"] / df_vc["count"].sum()
+
+    return df_vc.reset_index(drop=True).round(rounding_precision)
 
 @as_method
 def augment_sorted_values(df, column_name, sep):
@@ -206,7 +228,7 @@ def augment_count(DF, column_names):
     
     df_count = (
         DF[column_names]
-        .value_counts(column_names, dropna = False)
+        .value_counts(dropna = False)
         .reset_index()
     )
 
