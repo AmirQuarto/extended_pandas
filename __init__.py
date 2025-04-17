@@ -198,3 +198,16 @@ def augment_sorted_values(df, column_name, sep):
 # (pd.DataFrame({'A': ["b=a ", "c=d", "x=y", "y=x"]})
 # .augment_sorted_values("A", sep="=")
 # )
+
+@as_method
+def augment_count(DF, column_names):
+
+    assert 'count' not in list(DF.columns)
+    
+    df_count = (
+        DF[column_names]
+        .value_counts(column_names, dropna = False)
+        .reset_index()
+    )
+
+    return DF.merge(df_count,on = column_names, how = 'left')
