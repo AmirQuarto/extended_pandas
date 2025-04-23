@@ -79,6 +79,13 @@ def as_augment(same_length=True, new_columns=None):
     return decorator
 
 
+@as_method
+def flatten_columns(DF, sep = "_"):
+    
+    DF.columns = [sep.join(col).strip() for col in DF.columns.values]
+
+    return DF
+
 
 @as_method
 def ur(DF, bl_print=True):
