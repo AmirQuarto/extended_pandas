@@ -240,3 +240,12 @@ def augment_count(DF, column_names):
     )
 
     return DF.merge(df_count,on = column_names, how = 'left')
+
+
+@as_method
+def flatten_columns(DF, sep = "_"):
+    
+    DF.columns = [sep.join(col).strip() for col in DF.columns.values]
+
+    return DF
+
