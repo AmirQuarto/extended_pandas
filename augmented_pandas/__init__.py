@@ -10,6 +10,7 @@ from pandas.core.base import PandasObject
 from pyperclip import copy as copy_
 from pyperclip import paste as paste_
 from .augment import *
+import xlwings
 
 PandasObject.view = xlwings.view
 

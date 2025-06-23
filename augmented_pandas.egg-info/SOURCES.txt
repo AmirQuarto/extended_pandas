@@ -1,0 +1,10 @@
+LICENSE
+setup.py
+augmented_pandas/__init__.py
+augmented_pandas/augment.py
+augmented_pandas/folder_analysis.py
+augmented_pandas.egg-info/PKG-INFO
+augmented_pandas.egg-info/SOURCES.txt
+augmented_pandas.egg-info/dependency_links.txt
+augmented_pandas.egg-info/requires.txt
+augmented_pandas.egg-info/top_level.txt

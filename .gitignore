@@ -1,0 +1,3 @@
+*.egg
+eda*.py
+__pycache__*

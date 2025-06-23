@@ -1,5 +1,7 @@
+from functools import wraps
+from copy import deepcopy
 import pandas as pd
-
+from pandas.core.base import PandasObject
 
 def as_method(func):
     """
