@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import os
 import xlwings as xw
-from IPython.display import display
 
 from copy import deepcopy
 from functools import wraps
@@ -71,29 +70,24 @@ def dr(DF, lst_col=None, keep=False, bl_print=True):
 
 
 @as_method
-def rc(df, lst_ordered = None, bl_left=True):
+def rc(DF, lst_ordered = None, bl_left=True):
     """
     Reorders columns
     """
 
     if lst_ordered is None:
-        print(list(df.columns))
-        copy_(list(df.columns))
+        print(list(DF.columns))
+        copy_(list(DF.columns))
         return DF
         
-    lst_col = [i for i in df.columns if i not in lst_ordered]
+    lst_col = [i for i in DF.columns if i not in lst_ordered]
 
     if bl_left:
-        return df[lst_ordered + lst_col]
+        return DF[lst_ordered + lst_col]
 
     else:
-        return df[lst_col + lst_ordered]
+        return DF[lst_col + lst_ordered]
 
-
-@as_method
-def display_(DF):
-    display(DF)
-    return DF
 
 
 def load_xl():

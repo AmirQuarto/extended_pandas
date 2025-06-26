@@ -2,3 +2,6 @@
 eda*.py
 __pycache__*
 *egg-info*
+
+test_after_install.py
+install.sh
