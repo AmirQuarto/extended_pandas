@@ -1,3 +1,4 @@
-*.egg
+*.egg*
 eda*.py
 __pycache__*
+*egg-info*
