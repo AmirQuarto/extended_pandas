@@ -1,4 +1,5 @@
 import os
+from tqdm import tqdm
 
 def read_file(path):
     """Reads the contents of a UTF-8 text file and returns it as a string."""
@@ -23,4 +24,9 @@ def yeald_list(lst, print_output=True):
     for c, item in enumerate(lst):
         if print_output:
             print(f"{len(lst) - c} \t| {item}")
+        yield item
+
+def tqdm_list(lst, print_output=True):
+    """Yield elements from a list."""
+    for item in tqdm(lst):
         yield item
