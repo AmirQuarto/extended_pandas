@@ -5,3 +5,6 @@ __pycache__*
 
 test_after_install.py
 install.sh
+
+venv/
+.*
