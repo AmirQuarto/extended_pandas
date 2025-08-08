@@ -99,3 +99,11 @@ def augment_count(DF, column_names):
     )
 
     return DF.merge(df_count,on = column_names, how = 'left')
+
+
+@as_method
+def augment_id(DF, id="id", start_value = 1):
+    if len(DF.ur(False)) != len(DF):
+        print("Non-Unique-rows")
+    DF[id] = range(start_value, len(DF) + start_value)
+    return DF.rc([id])
