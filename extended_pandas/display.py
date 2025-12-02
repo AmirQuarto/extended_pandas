@@ -3,6 +3,10 @@ from IPython.display import display
 from .augment import *
 
 
+@as_method
+def d(num):
+    pd.set_option('display.max_colwidth', num)
+    
 
 @as_method
 def display_(DF):
