@@ -101,6 +101,33 @@ def augment_count(DF, column_names):
     return DF.merge(df_count,on = column_names, how = 'left')
 
 
+
+@as_method
+def augment_reason_column(DF, str_template, column_name="Reason", sep ="'|\"|`",  print_row=0, round_=1):
+    from pandas.api.types import is_numeric_dtype
+    import re
+
+    # Just like R:)
+    # lst_ = str_template.split("`")
+
+    lst_ = re.split(sep, str_template)
+
+    series_ = ""
+    for i in lst_:
+        if i in DF.columns:
+            if is_numeric_dtype(DF[i]):
+                series_ += DF[i].round(round_).map(str)
+            else:
+                series_ += DF[i].map(str)
+        else:
+            series_ += i
+
+    DF[column_name] = series_
+
+    print(series_.values[print_row])
+
+    return DF
+
 @as_method
 def augment_id(DF, id="id", start_value = 1):
     if len(DF.ur(False)) != len(DF):
